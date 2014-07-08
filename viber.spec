@@ -2,13 +2,16 @@ Summary:	Viber - Free Calls and Messages
 Name:		viber
 # Version from About dialog
 Version:	3.1.2
-Release:	0.2
+Release:	0.3
 License:	?
 Group:		Applications/Communications
 Source0:	http://download.cdn.viber.com/cdn/desktop/Linux/%{name}.deb
 # NoSource0-md5:	7be88e0d854aa31e0d7dade32a6413a8
 NoSource:	0
+Patch0:		desktop.patch
 URL:		http://viber.com/products/linux
+BuildRequires:	desktop-file-utils
+Requires:	desktop-file-utils
 ExclusiveArch:	%{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -40,9 +43,10 @@ syncs your contacts and messages with your mobile device.
 %setup -qcT
 ar x %{SOURCE0}
 tar xzf data.tar.gz
-
 mv .%{_datadir}/* .
 mv viber/Viber.sh .
+
+%patch0 -p1
 
 cat <<'EOF' > viber.sh
 #!/bin/sh
@@ -58,8 +62,16 @@ cp -p applications/viber.desktop $RPM_BUILD_ROOT%{_desktopdir}
 cp -p pixmaps/viber.png $RPM_BUILD_ROOT%{_pixmapsdir}
 install -p viber.sh $RPM_BUILD_ROOT%{_bindir}/%{name}
 
+desktop-file-validate $RPM_BUILD_ROOT%{_desktopdir}/%{name}.desktop
+
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post
+%update_desktop_database
+
+%postun
+%update_desktop_database
 
 %files
 %defattr(644,root,root,755)

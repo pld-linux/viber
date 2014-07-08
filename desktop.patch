@@ -1,0 +1,16 @@
+--- viber-3.1.2/applications/viber.desktop~	2013-10-18 12:34:09.000000000 +0300
++++ viber-3.1.2/applications/viber.desktop	2014-07-08 17:49:30.230714374 +0300
+@@ -1,10 +1,9 @@
+ [Desktop Entry]
+ Name=Viber
+ Comment=Viber VoIP and messenger
+-Exec=/usr/share/viber/Viber.sh
+-Icon=/usr/share/pixmaps/viber.png
++Exec=viber
++Icon=viber
+ Terminal=false
+ Type=Application
+ Encoding=UTF-8
+-Categories=Network;Application;
+-Path=
++Categories=Qt;Network;InstantMessaging;Telephony;
