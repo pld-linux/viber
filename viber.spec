@@ -1,8 +1,10 @@
+# TODO
+# - need to chown $USER /usr/lib/viber or app won't start
 Summary:	Viber - Free Calls and Messages
 Name:		viber
 # Version from About dialog
 Version:	3.1.2
-Release:	0.3
+Release:	0.4
 License:	?
 Group:		Applications/Communications
 Source0:	http://download.cdn.viber.com/cdn/desktop/Linux/%{name}.deb
@@ -45,13 +47,14 @@ ar x %{SOURCE0}
 tar xzf data.tar.gz
 mv .%{_datadir}/* .
 mv viber/Viber.sh .
+mv viber/{V,v}iber
 
 %patch0 -p1
 
 cat <<'EOF' > viber.sh
 #!/bin/sh
 export LD_LIBRARY_PATH=%{_appdir}:$LD_LIBRARY_PATH
-exec %{_appdir}/Viber "$@"
+exec %{_appdir}/viber "$@"
 EOF
 
 %install
@@ -77,7 +80,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/viber
 %dir %{_appdir}
-%attr(755,root,root) %{_appdir}/Viber
+%attr(755,root,root) %{_appdir}/viber
 %attr(755,root,root) %{_appdir}/libViber.so
 %{_appdir}/Sound
 %{_appdir}/icons
